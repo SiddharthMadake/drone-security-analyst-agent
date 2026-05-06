@@ -1,0 +1,14 @@
+# Python 3.10+
+
+# Optional for real vision inference
+ultralytics>=8.0.0
+
+# Web dashboard and API
+fastapi>=0.110.0
+uvicorn>=0.27.0
+
+# Optional for dotenv support
+python-dotenv>=1.0.0
+
+# Automated tests
+pytest>=9.0.0

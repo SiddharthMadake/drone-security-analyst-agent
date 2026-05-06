@@ -1,0 +1,445 @@
+{
+  "frames": [
+    {
+      "frame_id": "1b648849-b5dc-4c90-8984-0395195c24dc",
+      "timestamp": "2026-05-06T23:58:00",
+      "telemetry": {
+        "timestamp": "2026-05-06T23:58:00",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Garage",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 7,
+          "class_name": "truck",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7732,
+          "color_estimate": "blue"
+        }
+      ],
+      "detected_classes": [
+        "truck"
+      ],
+      "caption": "Blue truck observed at Garage at 23:58.",
+      "frame_description": "Blue Ford F150 at garage entrance",
+      "object_summary": "Blue truck spotted at Garage, 23:58.",
+      "location": "Garage"
+    },
+    {
+      "frame_id": "a3158e02-0b5d-4e6c-8a6c-5396b86a9d6a",
+      "timestamp": "2026-05-06T23:58:35",
+      "telemetry": {
+        "timestamp": "2026-05-06T23:58:35",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Main Gate",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 5025,
+          "color_estimate": null
+        }
+      ],
+      "detected_classes": [
+        "person"
+      ],
+      "caption": "Person observed at Main Gate at 23:58.",
+      "frame_description": "Person standing near main gate",
+      "object_summary": "Person spotted at Main Gate, 23:58.",
+      "location": "Main Gate"
+    },
+    {
+      "frame_id": "75e30c1f-3afe-4673-a974-70f5daa77950",
+      "timestamp": "2026-05-06T23:59:10",
+      "telemetry": {
+        "timestamp": "2026-05-06T23:59:10",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Main Gate",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 5025,
+          "color_estimate": null
+        }
+      ],
+      "detected_classes": [
+        "person"
+      ],
+      "caption": "Person observed at Main Gate at 23:59.",
+      "frame_description": "Person still near main gate",
+      "object_summary": "Person spotted at Main Gate, 23:59.",
+      "location": "Main Gate"
+    },
+    {
+      "frame_id": "f1ecf82d-e0eb-46a7-8f2c-0a3abf650f65",
+      "timestamp": "2026-05-06T23:59:45",
+      "telemetry": {
+        "timestamp": "2026-05-06T23:59:45",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Restricted Area",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7981,
+          "color_estimate": null
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7989,
+          "color_estimate": null
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7997,
+          "color_estimate": null
+        },
+        {
+          "class_id": 7,
+          "class_name": "truck",
+          "confidence": 0.9,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 5744,
+          "color_estimate": null
+        }
+      ],
+      "detected_classes": [
+        "truck",
+        "person"
+      ],
+      "caption": "Person, person, person, truck observed at Restricted Area at 23:59.",
+      "frame_description": "Three people and a truck at restricted area",
+      "object_summary": "Person, person, person, truck spotted at Restricted Area, 23:59.",
+      "location": "Restricted Area"
+    },
+    {
+      "frame_id": "b752b05f-791d-46c4-bbfd-51d1a0c61158",
+      "timestamp": "2026-05-07T00:00:20",
+      "telemetry": {
+        "timestamp": "2026-05-07T00:00:20",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Driveway",
+        "battery_pct": 88.0
+      },
+      "detections": [],
+      "detected_classes": [],
+      "caption": "No objects detected at Driveway at 00:00.",
+      "frame_description": "Empty driveway",
+      "object_summary": "No objects detected at Driveway, 00:00.",
+      "location": "Driveway"
+    },
+    {
+      "frame_id": "be1311c2-791a-4704-99e1-b3d554015b83",
+      "timestamp": "2026-05-07T00:00:55",
+      "telemetry": {
+        "timestamp": "2026-05-07T00:00:55",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Back Entrance",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 2,
+          "class_name": "car",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7721,
+          "color_estimate": "red"
+        },
+        {
+          "class_id": 3,
+          "class_name": "motorcycle",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 2661,
+          "color_estimate": "red"
+        }
+      ],
+      "detected_classes": [
+        "car",
+        "motorcycle"
+      ],
+      "caption": "Red car, red motorcycle observed at Back Entrance at 00:00.",
+      "frame_description": "Red car and motorcycle near back entrance",
+      "object_summary": "Red car, red motorcycle spotted at Back Entrance, 00:00.",
+      "location": "Back Entrance"
+    },
+    {
+      "frame_id": "02bd9a41-691c-4f8b-b5a9-4f57e63f324d",
+      "timestamp": "2026-05-07T00:01:30",
+      "telemetry": {
+        "timestamp": "2026-05-07T00:01:30",
+        "latitude": 18.5204,
+        "longitude": 73.8567,
+        "altitude": 45.0,
+        "heading": 90.0,
+        "speed": 2.5,
+        "location_label": "Garage",
+        "battery_pct": 88.0
+      },
+      "detections": [
+        {
+          "class_id": 7,
+          "class_name": "truck",
+          "confidence": 0.82,
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "track_id": 7732,
+          "color_estimate": "blue"
+        }
+      ],
+      "detected_classes": [
+        "truck"
+      ],
+      "caption": "Blue truck observed at Garage at 00:01.",
+      "frame_description": "Blue Ford F150 returned to garage entrance",
+      "object_summary": "Blue truck spotted at Garage, 00:01.",
+      "location": "Garage"
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "5c387bed-0864-43e0-a0b2-586a343a4368",
+      "timestamp": "2026-05-06T23:58:35",
+      "alert_type": "INTRUSION",
+      "severity": "HIGH",
+      "location": "Main Gate",
+      "description": "Person detected during off-hours at Main Gate (23:58).",
+      "frame_ids": [
+        "a3158e02-0b5d-4e6c-8a6c-5396b86a9d6a"
+      ],
+      "resolved": false,
+      "metadata": {
+        "hour": 23,
+        "off_hours": true
+      }
+    },
+    {
+      "alert_id": "47a6c1cd-17af-49ea-bf54-c4d252c4b864",
+      "timestamp": "2026-05-06T23:59:10",
+      "alert_type": "LOITERING",
+      "severity": "HIGH",
+      "location": "Main Gate",
+      "description": "Person loitering at Main Gate for 35s.",
+      "frame_ids": [
+        "a3158e02-0b5d-4e6c-8a6c-5396b86a9d6a",
+        "75e30c1f-3afe-4673-a974-70f5daa77950"
+      ],
+      "resolved": false,
+      "metadata": {
+        "duration_seconds": 35.0
+      }
+    },
+    {
+      "alert_id": "fbebef23-2c90-4abc-ba7a-78fc0c329b8a",
+      "timestamp": "2026-05-06T23:59:45",
+      "alert_type": "INTRUSION",
+      "severity": "HIGH",
+      "location": "Restricted Area",
+      "description": "Person detected during off-hours at Restricted Area (23:59).",
+      "frame_ids": [
+        "f1ecf82d-e0eb-46a7-8f2c-0a3abf650f65"
+      ],
+      "resolved": false,
+      "metadata": {
+        "hour": 23,
+        "off_hours": true
+      }
+    },
+    {
+      "alert_id": "1b6530fb-dbfc-49f6-9639-bd0abb5674a1",
+      "timestamp": "2026-05-06T23:59:45",
+      "alert_type": "UNAUTHORIZED_ZONE",
+      "severity": "CRITICAL",
+      "location": "Restricted Area",
+      "description": "Unauthorized person detected in restricted area: Restricted Area.",
+      "frame_ids": [
+        "f1ecf82d-e0eb-46a7-8f2c-0a3abf650f65"
+      ],
+      "resolved": false,
+      "metadata": {
+        "zone": "Restricted Area",
+        "restricted": true
+      }
+    },
+    {
+      "alert_id": "ebb4347e-0ac1-4c20-98b7-eed1d51065a4",
+      "timestamp": "2026-05-06T23:59:45",
+      "alert_type": "CROWD_DETECTED",
+      "severity": "MEDIUM",
+      "location": "Restricted Area",
+      "description": "Crowd detected at Restricted Area: 3 persons.",
+      "frame_ids": [
+        "f1ecf82d-e0eb-46a7-8f2c-0a3abf650f65"
+      ],
+      "resolved": false,
+      "metadata": {
+        "person_count": 3
+      }
+    },
+    {
+      "alert_id": "0c01e1c0-fe18-44ba-9a70-b8329a4cb8cb",
+      "timestamp": "2026-05-07T00:01:30",
+      "alert_type": "REPEATED_VEHICLE",
+      "severity": "MEDIUM",
+      "location": "Garage",
+      "description": "Blue truck entered Garage 2 times in 60 minutes.",
+      "frame_ids": [
+        "02bd9a41-691c-4f8b-b5a9-4f57e63f324d"
+      ],
+      "resolved": false,
+      "metadata": {
+        "vehicle_class": "truck",
+        "count": 2
+      }
+    }
+  ],
+  "stats": {
+    "frames_processed": 7,
+    "total_detections": 10,
+    "inference_ms_avg": 1.4423857145240098
+  },
+  "db_stats": {
+    "total_frames": 7,
+    "total_alerts": 6,
+    "open_alerts": 6,
+    "alerts_by_type": {
+      "CROWD_DETECTED": 1,
+      "INTRUSION": 2,
+      "LOITERING": 1,
+      "REPEATED_VEHICLE": 1,
+      "UNAUTHORIZED_ZONE": 1
+    },
+    "alerts_by_severity": {
+      "CRITICAL": 1,
+      "HIGH": 3,
+      "MEDIUM": 2
+    },
+    "top_locations": [
+      {
+        "location": "Garage",
+        "count": 2
+      },
+      {
+        "location": "Main Gate",
+        "count": 2
+      },
+      {
+        "location": "Back Entrance",
+        "count": 1
+      },
+      {
+        "location": "Driveway",
+        "count": 1
+      },
+      {
+        "location": "Restricted Area",
+        "count": 1
+      }
+    ],
+    "hourly_activity": [
+      {
+        "hour": "00",
+        "count": 3
+      },
+      {
+        "hour": "23",
+        "count": 4
+      }
+    ]
+  }
+}

@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drone Security Operations</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+      :root {
+        --bg: #071013;
+        --surface: #111b1f;
+        --panel: #162329;
+        --line: #2b3d43;
+        --text: #edf7f5;
+        --muted: #9fb3b0;
+        --green: #4ade80;
+        --cyan: #22d3ee;
+        --amber: #f59e0b;
+        --red: #ef4444;
+        --violet: #a78bfa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        border-right: 1px solid var(--line);
+        background: #0d171b;
+        padding: 22px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 26px;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 1px solid #335159;
+        border-radius: 8px;
+        background: #12252a;
+        color: var(--cyan);
+        font-weight: 800;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      .brand span,
+      .label,
+      .muted {
+        color: var(--muted);
+      }
+
+      .brand span {
+        display: block;
+        margin-top: 3px;
+        font-size: 12px;
+      }
+
+      .status-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 14px;
+        margin-bottom: 14px;
+      }
+
+      .status-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+        font-size: 13px;
+      }
+
+      .pulse {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .pulse::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+
+      .quick button {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-top: 8px;
+        padding: 10px 12px;
+        background: transparent;
+        color: var(--text);
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .quick button:hover {
+        border-color: var(--cyan);
+        background: #13262b;
+      }
+
+      main {
+        padding: 22px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .topbar h2 {
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: 0;
+      }
+
+      .topbar p {
+        margin: 5px 0 0;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 14px;
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .btn.primary {
+        border-color: #1e8fa3;
+        background: #0c5261;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .content {
+        grid-template-columns: minmax(0, 1.6fr) minmax(360px, 0.9fr);
+        align-items: start;
+      }
+
+      .stack {
+        display: grid;
+        gap: 14px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        overflow: hidden;
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        padding: 14px 16px;
+      }
+
+      .panel-head h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .kpi {
+        padding: 16px;
+      }
+
+      .kpi .value {
+        margin-top: 8px;
+        font-size: 30px;
+        font-weight: 800;
+      }
+
+      .kpi .hint {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 14px;
+      }
+
+      #map {
+        width: 100%;
+        height: 410px;
+        background: #0a1215;
+      }
+
+      .leaflet-container {
+        filter: saturate(0.8) contrast(1.05);
+        background: #0a1215;
+      }
+
+      .timeline,
+      .alerts,
+      .results {
+        display: grid;
+        gap: 10px;
+      }
+
+      .event,
+      .alert-item,
+      .result-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 12px;
+      }
+
+      .event-top,
+      .alert-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0;
+        color: var(--muted);
+      }
+
+      .badge.high,
+      .badge.critical {
+        border-color: #7f1d1d;
+        background: #3f1111;
+        color: #fecaca;
+      }
+
+      .badge.medium {
+        border-color: #854d0e;
+        background: #3d2609;
+        color: #fde68a;
+      }
+
+      .badge.low {
+        border-color: #14532d;
+        background: #0f2f1c;
+        color: #bbf7d0;
+      }
+
+      .tools {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      input {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #0c1518;
+        color: var(--text);
+        padding: 11px 12px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: var(--cyan);
+      }
+
+      .answer {
+        min-height: 72px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 12px;
+        line-height: 1.45;
+      }
+
+      .empty {
+        color: var(--muted);
+        padding: 12px;
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+      }
+
+      .chart-wrap {
+        height: 260px;
+      }
+
+      .bar-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 110px 1fr 34px;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+      }
+
+      .bar-track {
+        height: 8px;
+        border-radius: 999px;
+        background: #0b1417;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: var(--cyan);
+      }
+
+      @media (max-width: 1120px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .content,
+        .split,
+        .kpis {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">DS</div>
+          <div>
+            <h1>DroneSec Analyst</h1>
+            <span>Autonomous property monitoring</span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="pulse">Patrol index online</div>
+          <div class="status-row">
+            <span>Database</span>
+            <strong id="dbState">Syncing</strong>
+          </div>
+          <div class="status-row">
+            <span>Last refresh</span>
+            <strong id="lastRefresh">--</strong>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="label">Demo Queries</div>
+          <div class="quick">
+            <button data-query="show all truck events">Truck history</button>
+            <button data-query="what alerts happened?">Recent alerts</button>
+            <button data-query="summary of activity">Activity summary</button>
+            <button data-search="gate">Search gate</button>
+          </div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="topbar">
+          <div>
+            <h2>Security Operations Console</h2>
+            <p>Frame-level drone intelligence, searchable context, and real-time incident triage.</p>
+          </div>
+          <div class="actions">
+            <button class="btn" id="refreshBtn">Refresh</button>
+            <button class="btn primary" id="summaryBtn">Generate Summary</button>
+          </div>
+        </div>
+
+        <section class="grid kpis">
+          <div class="panel kpi">
+            <div class="label">Indexed Frames</div>
+            <div class="value" id="totalFrames">0</div>
+            <div class="hint">Searchable frame records</div>
+          </div>
+          <div class="panel kpi">
+            <div class="label">Total Alerts</div>
+            <div class="value" id="totalAlerts">0</div>
+            <div class="hint">Rules triggered today</div>
+          </div>
+          <div class="panel kpi">
+            <div class="label">Open Incidents</div>
+            <div class="value" id="openAlerts">0</div>
+            <div class="hint">Awaiting review</div>
+          </div>
+          <div class="panel kpi">
+            <div class="label">Coverage Points</div>
+            <div class="value" id="coveragePoints">0</div>
+            <div class="hint">Telemetry locations</div>
+          </div>
+        </section>
+
+        <section class="grid content" style="margin-top: 14px">
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Property Telemetry Map</h3>
+                <span class="badge" id="frameCountBadge">0 frames</span>
+              </div>
+              <div id="map"></div>
+            </div>
+
+            <div class="split">
+              <div class="panel">
+                <div class="panel-head">
+                  <h3>Frame Timeline</h3>
+                  <span class="muted">Latest indexed observations</span>
+                </div>
+                <div class="panel-body">
+                  <div class="timeline" id="timeline"></div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-head">
+                  <h3>Alert Severity</h3>
+                  <span class="muted">Risk mix</span>
+                </div>
+                <div class="panel-body">
+                  <div class="chart-wrap">
+                    <canvas id="severityChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Live Incident Queue</h3>
+                <span class="badge high" id="incidentBadge">0 active</span>
+              </div>
+              <div class="panel-body">
+                <div class="alerts" id="alerts"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Frame Search</h3>
+                <span class="muted">SQLite FTS index</span>
+              </div>
+              <div class="panel-body">
+                <div class="tools">
+                  <input id="searchBox" placeholder="Search truck, gate, restricted area" />
+                  <button class="btn" id="searchBtn">Search</button>
+                </div>
+                <div class="results" id="results" style="margin-top: 12px"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Analyst Agent</h3>
+                <span class="muted">Follow-up Q&A</span>
+              </div>
+              <div class="panel-body">
+                <div class="tools">
+                  <input id="agentBox" placeholder="Ask: What objects appeared after midnight?" />
+                  <button class="btn" id="agentBtn">Ask</button>
+                </div>
+                <div class="answer" id="agentAnswer" style="margin-top: 12px">
+                  Ask about alerts, objects, frames, or activity summaries.
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h3>Top Locations</h3>
+                <span class="muted">Activity density</span>
+              </div>
+              <div class="panel-body">
+                <div class="bar-list" id="locations"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    {% raw %}
+    <script>
+      const state = {
+        stats: null,
+        alerts: [],
+        frames: [],
+        map: null,
+        markers: [],
+        severityChart: null,
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const fmtTime = (value) =>
+        value
+          ? new Date(value).toLocaleString([], {
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          : "--";
+
+      function severityClass(value) {
+        return String(value || "low").toLowerCase();
+      }
+
+      function setHtml(id, html) {
+        $(id).innerHTML = html;
+      }
+
+      async function fetchJson(url) {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`${url} returned ${res.status}`);
+        return res.json();
+      }
+
+      async function refreshAll() {
+        const [stats, alerts, frames] = await Promise.all([
+          fetchJson("/api/stats"),
+          fetchJson("/api/alerts"),
+          fetchJson("/api/frames"),
+        ]);
+
+        state.stats = stats;
+        state.alerts = alerts;
+        state.frames = frames;
+
+        renderStats(stats);
+        renderAlerts(alerts);
+        renderTimeline(frames);
+        renderMap(frames);
+        renderLocations(stats.top_locations || []);
+        renderSeverity(stats.alerts_by_severity || {});
+
+        $("dbState").textContent = "Ready";
+        $("lastRefresh").textContent = new Date().toLocaleTimeString();
+      }
+
+      function renderStats(stats) {
+        $("totalFrames").textContent = stats.total_frames || 0;
+        $("totalAlerts").textContent = stats.total_alerts || 0;
+        $("openAlerts").textContent = stats.open_alerts || 0;
+        $("coveragePoints").textContent = (stats.top_locations || []).length;
+        $("incidentBadge").textContent = `${stats.open_alerts || 0} active`;
+      }
+
+      function renderAlerts(alerts) {
+        if (!alerts.length) {
+          setHtml("alerts", '<div class="empty">No active alerts in the current index.</div>');
+          return;
+        }
+        setHtml(
+          "alerts",
+          alerts
+            .map(
+              (a) => `
+                <div class="alert-item">
+                  <div class="alert-top">
+                    <strong>${a.alert_type || "ALERT"}</strong>
+                    <span class="badge ${severityClass(a.severity)}">${a.severity || "LOW"}</span>
+                  </div>
+                  <div>${a.description || ""}</div>
+                  <div class="muted" style="margin-top: 8px">${a.location || "Unknown"} - ${fmtTime(a.timestamp)}</div>
+                </div>
+              `,
+            )
+            .join(""),
+        );
+      }
+
+      function renderTimeline(frames) {
+        $("frameCountBadge").textContent = `${frames.length} frames`;
+        if (!frames.length) {
+          setHtml("timeline", '<div class="empty">Run python main.py to generate demo frames.</div>');
+          return;
+        }
+        setHtml(
+          "timeline",
+          frames
+            .slice(0, 8)
+            .map(
+              (f) => `
+                <div class="event">
+                  <div class="event-top">
+                    <strong>${f.location || "Unknown location"}</strong>
+                    <span class="badge">${fmtTime(f.timestamp)}</span>
+                  </div>
+                  <div>${f.summary || f.frame_desc || "Frame indexed"}</div>
+                  <div class="muted" style="margin-top: 8px">${f.caption || "Caption pending"}</div>
+                </div>
+              `,
+            )
+            .join(""),
+        );
+      }
+
+      function renderMap(frames) {
+        if (!state.map) {
+          state.map = L.map("map", { zoomControl: true }).setView([18.5204, 73.8567], 16);
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap",
+          }).addTo(state.map);
+        }
+
+        state.markers.forEach((m) => m.remove());
+        state.markers = [];
+
+        const points = frames.filter((f) => f.latitude !== null && f.longitude !== null);
+        points.forEach((f) => {
+          const marker = L.circleMarker([f.latitude, f.longitude], {
+            radius: 8,
+            color: "#22d3ee",
+            fillColor: "#22d3ee",
+            fillOpacity: 0.8,
+            weight: 2,
+          })
+            .addTo(state.map)
+            .bindPopup(`<strong>${f.location || "Unknown"}</strong><br>${f.summary || ""}`);
+          state.markers.push(marker);
+        });
+      }
+
+      function renderLocations(locations) {
+        if (!locations.length) {
+          setHtml("locations", '<div class="empty">No locations indexed yet.</div>');
+          return;
+        }
+        const max = Math.max(...locations.map((l) => l.count || 0), 1);
+        setHtml(
+          "locations",
+          locations
+            .map(
+              (l) => `
+                <div class="bar-row">
+                  <span>${l.location || "Unknown"}</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: ${((l.count || 0) / max) * 100}%"></div></div>
+                  <strong>${l.count || 0}</strong>
+                </div>
+              `,
+            )
+            .join(""),
+        );
+      }
+
+      function renderSeverity(severity) {
+        const labels = Object.keys(severity);
+        const values = Object.values(severity);
+        const ctx = $("severityChart");
+        if (state.severityChart) state.severityChart.destroy();
+        state.severityChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels,
+            datasets: [
+              {
+                data: values,
+                backgroundColor: ["#ef4444", "#f59e0b", "#4ade80", "#a78bfa"],
+                borderColor: "#111b1f",
+                borderWidth: 3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { color: "#edf7f5", boxWidth: 10 },
+              },
+            },
+          },
+        });
+      }
+
+      async function searchFrames(query) {
+        const q = query || $("searchBox").value.trim();
+        $("searchBox").value = q;
+        if (!q) {
+          setHtml("results", '<div class="empty">Enter a search term.</div>');
+          return;
+        }
+        const rows = await fetchJson(`/api/search?q=${encodeURIComponent(q)}`);
+        if (!rows.length) {
+          setHtml("results", '<div class="empty">No matching frames found.</div>');
+          return;
+        }
+        setHtml(
+          "results",
+          rows
+            .slice(0, 5)
+            .map(
+              (f) => `
+                <div class="result-item">
+                  <strong>${f.location || "Unknown location"}</strong>
+                  <div>${f.summary || f.frame_desc || ""}</div>
+                  <div class="muted" style="margin-top: 6px">${fmtTime(f.timestamp)}</div>
+                </div>
+              `,
+            )
+            .join(""),
+        );
+      }
+
+      async function askAgent(query) {
+        const q = query || $("agentBox").value.trim();
+        $("agentBox").value = q;
+        if (!q) return;
+        $("agentAnswer").textContent = "Thinking over indexed frames...";
+        const data = await fetchJson(`/api/agent/ask?q=${encodeURIComponent(q)}`);
+        $("agentAnswer").textContent = data.answer || "No answer returned.";
+      }
+
+      $("refreshBtn").addEventListener("click", refreshAll);
+      $("summaryBtn").addEventListener("click", () => askAgent("summary of activity"));
+      $("searchBtn").addEventListener("click", () => searchFrames());
+      $("agentBtn").addEventListener("click", () => askAgent());
+      $("searchBox").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") searchFrames();
+      });
+      $("agentBox").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") askAgent();
+      });
+      document.querySelectorAll("[data-query]").forEach((btn) =>
+        btn.addEventListener("click", () => askAgent(btn.dataset.query)),
+      );
+      document.querySelectorAll("[data-search]").forEach((btn) =>
+        btn.addEventListener("click", () => searchFrames(btn.dataset.search)),
+      );
+
+      refreshAll().catch((err) => {
+        $("dbState").textContent = "Error";
+        console.error(err);
+      });
+      setInterval(() => refreshAll().catch(console.error), 10000);
+    </script>
+    {% endraw %}
+  </body>
+</html>
